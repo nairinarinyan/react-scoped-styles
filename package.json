@@ -1,6 +1,6 @@
 {
     "name": "react-scoped-styles",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Scoped styles for React components",
     "main": "index.js",
     "scripts": {
@@ -14,6 +14,10 @@
     ],
     "author": "Nairi Narinyan",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nairinarinyan/react-scoped-styles"
+    },
     "devDependencies": {
         "@types/node": "^10.12.21",
         "typescript": "^3.3.1"

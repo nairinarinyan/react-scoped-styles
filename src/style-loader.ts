@@ -1,8 +1,8 @@
 import { createDirHash } from './lib/dirhash';
 
 function styleLoader(source: string): string {
-    const { prefix = 'app' }  = this.query;
-    const classRegex = new RegExp(`^(\\.)((?!${prefix}).*?)(\\s)`, 'gm');
+    const { globalsPrefix = 'app' }  = this.query;
+    const classRegex = new RegExp(`^(\\.)((?!${globalsPrefix}).*?)(\\s)`, 'gm');
 
     if (!source.match(classRegex)) {
         return source;

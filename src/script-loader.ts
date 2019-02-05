@@ -1,7 +1,7 @@
 import { createDirHash } from './lib/dirhash';
 
 function scriptLoader(source: string): string {
-    const { prefix = 'app' }  = this.query;
+    const { globalsPrefix = 'app' }  = this.query;
     const classNameRegex = /(className.*?["|'])(.*?)("|')/g;
 
     if (!source.match(classNameRegex)) {
@@ -12,7 +12,7 @@ function scriptLoader(source: string): string {
     return source.replace(classNameRegex, (_match, p1, classNames, p3) => {
         const uniqueClassNames = classNames.split(' ')
             .map((className: string) => {
-                const containsPrefix = !!~className.indexOf(prefix);
+                const containsPrefix = !!~className.indexOf(globalsPrefix);
                 return containsPrefix ? className : dirHash + '-' + className;
             })
             .join(' ');
