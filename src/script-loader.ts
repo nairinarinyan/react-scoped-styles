@@ -1,6 +1,7 @@
 import { createDirHash } from './lib/dirhash';
+import { LoaderContext } from './options';
 
-function scriptLoader(source: string): string {
+function scriptLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' }  = this.query;
     const classNameRegex = /(className.*?["|'])(.*?)("|')/g;
 
@@ -8,12 +9,13 @@ function scriptLoader(source: string): string {
         return source;
     }
 
-    const dirHash = createDirHash(this.resourcePath);
+    const [dirName, dirHash] = createDirHash(this.context);
     return source.replace(classNameRegex, (_match, p1, classNames, p3) => {
         const uniqueClassNames = classNames.split(' ')
             .map((className: string) => {
-                const containsPrefix = !!~className.indexOf(globalsPrefix);
-                return containsPrefix ? className : dirHash + '-' + className;
+                const containsPrefix = className.startsWith(`${globalsPrefix}-`);
+                const uniqueClassName = `${dirName}-${dirHash}-${className}`;
+                return containsPrefix ? className : uniqueClassName;
             })
             .join(' ');
 

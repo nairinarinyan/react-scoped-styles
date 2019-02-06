@@ -1,5 +1,5 @@
 # Scoped Styles for React
-## ⚠️ UNSTABLE YET
+## ⚠️ EARLY VERSION
 
 
 Get your CSS **classes** scoped by component directory  
@@ -14,15 +14,15 @@ npm i react-scoped-styles
 
 The module assumes that component file and its styles are in the same directory. 
 ```
-+-- Button
++-- button
    +-- Button.tsx
-   +-- Button.styl
+   +-- button.styl
 ```
 
 **Button.tsx**
 ```jsx
   import React from 'react';
-  import './Button.styl';
+  import './button.styl';
 
   const Button = () => (
     <button className="foo">Press Me</button>
@@ -31,7 +31,7 @@ The module assumes that component file and its styles are in the same directory.
   export default Button;
 ```
 
-**Button.styl**
+**button.styl**
 ```stylus
 .foo
     border none
@@ -42,10 +42,10 @@ The module assumes that component file and its styles are in the same directory.
 
 This will be rendered to
 ```html
-<button class="fbb02d8f3d-foo">Press Me</button>
+<button class="button-c65bae6565-foo">Press Me</button>
 ```
 ```css
-.fbb02d8f3d-foo {
+.button-c65bae6565-foo {
   border: none;
   padding: 10px 30px;
   color: #fff;
@@ -54,7 +54,8 @@ This will be rendered to
 ```
 
 ### Globals
-If you want to use global styles you can pass `globalsPrefix` options to **both** loaders
+To use global styles you can pass `globalsPrefix` options to **both** loaders and prefix your classes with it.  
+(`app` is applied by default)
 ```js
 
 {
@@ -65,21 +66,44 @@ If you want to use global styles you can pass `globalsPrefix` options to **both*
 }
 ```
 
-Thus classes with `app-` will be ignored
+Thus classes with `app-` prefix will be ignored.  
 ```jsx
 const Button = () => (
-  <button className="foo app-global-class">Press Me</button>
+    <button className="foo app-global-class">Press Me</button>
 );
 ```
+```stylus
+.foo
+    border none
+    padding 10px 30px
+    color white
+    background-color darkslateblue
+
+.app-global-class
+    background-color purple
+```
+Becomes
 ```html
-<button class="fbb02d8f3d-foo app-global-class">Press Me</button>
+<button class="button-c65bae6565-foo app-global-class">Press Me</button>
+```
+```css
+.button-c65bae6565-foo {
+  border: none;
+  padding: 10px 30px;
+  color: #fff;
+  background-color: #483d8b;
+}
+.app-global-class {
+  background-color: #800080;
+}
 ```
 
 
 ## Getting started
 
-The module exposes two loaders for both for **componenets** and **styles**.  
-Append the script loader **after** it has been transpiled by TypeScript loader (not tested with **Babel** yet).
+The module exposes two loaders both for **componenets** and **styles**.  
+Append the script-loader **after** it has been transpiled by TypeScript loader (not tested with **Babel** yet).
+And style-loader should be **after** the preprocessor loader and **before** the css-loader.
 
 **webpack.config.js**
 ```js
