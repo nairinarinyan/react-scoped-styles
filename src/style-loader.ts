@@ -10,12 +10,10 @@ function styleLoader(this: LoaderContext, source: string): string {
     }
     
     const [dirName, dirHash] = createDirHash(this.context);
-    const enhancedSource = source.replace(classRegex, (_match, p1, className) => {
+    return source.replace(classRegex, (_match, p1, className) => {
         const uniqueClassName = `${dirName}-${dirHash}-${className}`;
         return p1 + uniqueClassName;
     });
-
-    return enhancedSource;
 };
 
 export = styleLoader;
