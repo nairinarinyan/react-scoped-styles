@@ -1,5 +1,4 @@
 # Scoped Styles for React
-## ⚠️ EARLY VERSION
 
 [![NPM](https://img.shields.io/npm/v/react-scoped-styles.svg)](https://img.shields.io/npm/v/react-scoped-styles.svg)
 
@@ -129,11 +128,17 @@ module.exports = {
       },
       // Babel
       {
-       'react-scoped-styles/script-loader',
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
-        }
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: [
+          'react-scoped-styles/script-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react']
+            }
+          }
+        ]
       },
       // Stylus
       {
