@@ -1,6 +1,7 @@
 # Scoped Styles for React
 ## ⚠️ EARLY VERSION
 
+[![NPM](https://img.shields.io/npm/v/react-scoped-styles.svg)](https://img.shields.io/npm/v/react-scoped-styles.svg)
 
 Get your CSS **classes** scoped by component directory  
 ### Tested only for [Stylus](http://stylus-lang.com/) ATM
@@ -102,8 +103,8 @@ Becomes
 ## Getting started
 
 The module exposes two loaders both for **componenets** and **styles**.  
-Append the script-loader **after** it has been transpiled by TypeScript loader (not tested with **Babel** yet).
-And style-loader should be **after** the preprocessor loader and **before** the css-loader.
+Append the **script-loader** **after** it has been transpiled by TypeScript loader (not tested with **Babel** yet).  
+And **style-loader** should be **after** the preprocessor loader and **before** the css-loader.
 
 **webpack.config.js**
 ```js
@@ -141,18 +142,18 @@ module.exports = {
 };
 ```
 
-## How it's different from CSS Modules
-If you are using CSS Modules you have to manually import and assign classes  
+## How it's different from CSS Modules?
+In CSS Modules you have to manually import and assign classes  
 ```jsx
-import styles from './Button.styl';
+import styles from './button.styl';
 
 const Button = () => (
   <button className={styles.foo}>Press Me</button>
 );
 ```
-React Scoped Styles doesn't require to change the conventional styling workflow. You still assign your classes with plain strings
+React Scoped Styles doesn't require to change the conventional styling workflow. You still assign your classes with plain strings.
 ```jsx
-import './Button.styl';
+import './button.styl';
 
 const Button = () => (
   <button className="foo">Press Me</button>
