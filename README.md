@@ -4,6 +4,24 @@
 
 Get your CSS **classes** scoped by component directory  
 
+## How it's different from CSS Modules?
+In CSS Modules you have to manually import and assign classes  
+```jsx
+import styles from './button.styl';
+
+const Button = () => (
+  <button className={styles.foo}>Press Me</button>
+);
+```
+React Scoped Styles doesn't require to change the conventional styling workflow. You still assign your classes with plain strings.
+```jsx
+import './button.styl';
+
+const Button = () => (
+  <button className="foo">Press Me</button>
+);
+```
+
 ## Installation
 ```console
 npm i react-scoped-styles
@@ -181,24 +199,6 @@ export const SideBar = () => {
         </div>
     )
 };
-```
-
-## How it's different from CSS Modules?
-In CSS Modules you have to manually import and assign classes  
-```jsx
-import styles from './button.styl';
-
-const Button = () => (
-  <button className={styles.foo}>Press Me</button>
-);
-```
-React Scoped Styles doesn't require to change the conventional styling workflow. You still assign your classes with plain strings.
-```jsx
-import './button.styl';
-
-const Button = () => (
-  <button className="foo">Press Me</button>
-);
 ```
 
 ## API
