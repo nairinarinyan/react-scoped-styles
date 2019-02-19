@@ -1,7 +1,7 @@
 import { createDirHash } from './lib/dirhash';
 import { LoaderContext } from './options';
 
-function scriptLoader(this: LoaderContext, source: string): string {
+export default function scriptLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' }  = this.query;
 
     const classExprRegex = /className.*?['|"].*?['|"].*?[:|}]/g
@@ -26,5 +26,3 @@ function scriptLoader(this: LoaderContext, source: string): string {
         });
     });
 }
-
-export = scriptLoader;

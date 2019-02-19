@@ -53,60 +53,6 @@ This will be rendered to
 }
 ```
 
-### Globals
-To use global styles you can pass `globalsPrefix` options to **both** loaders and prefix your classes with it.  
-(`app` is applied by default)
-```js
-const scopedStylesOptions = {
-  globalsPrefix: 'app'
-};
-
-
-{
-  loader: 'react-scoped-styles/script-loader',
-  options: scopedStylesOptions
-}
-// ...
-{
-  loader: 'react-scoped-styles/style-loader',
-  options: scopedStylesOptions
-}
-
-```
-
-Thus classes with `app-` prefix will be ignored.  
-```jsx
-const Button = () => (
-    <button className="foo app-global-class">Press Me</button>
-);
-```
-```stylus
-.foo
-    border none
-    padding 10px 30px
-    color white
-    background-color darkslateblue
-
-.app-global-class
-    background-color purple
-```
-Becomes
-```html
-<button class="button-c65bae6565-foo app-global-class">Press Me</button>
-```
-```css
-.button-c65bae6565-foo {
-  border: none;
-  padding: 10px 30px;
-  color: #fff;
-  background-color: #483d8b;
-}
-.app-global-class {
-  background-color: #800080;
-}
-```
-
-
 ## Getting started
 
 The module exposes two loaders both for **componenets** and **styles**.  
@@ -165,6 +111,78 @@ module.exports = {
 };
 ```
 
+### Globals
+To use global styles you can pass `globalsPrefix` options to **both** loaders and prefix your classes with it.  
+(`app` is applied by default)
+```js
+const scopedStylesOptions = {
+  globalsPrefix: 'app'
+};
+
+
+{
+  loader: 'react-scoped-styles/script-loader',
+  options: scopedStylesOptions
+}
+// ...
+{
+  loader: 'react-scoped-styles/style-loader',
+  options: scopedStylesOptions
+}
+
+```
+
+Thus classes with `app-` prefix will be ignored.  
+```jsx
+const Button = () => (
+    <button className="foo app-global-class">Press Me</button>
+);
+```
+```stylus
+.foo
+    border none
+    padding 10px 30px
+    color white
+    background-color darkslateblue
+
+.app-global-class
+    background-color purple
+```
+Becomes
+```html
+<button class="button-c65bae6565-foo app-global-class">Press Me</button>
+```
+```css
+.button-c65bae6565-foo {
+  border: none;
+  padding: 10px 30px;
+  color: #fff;
+  background-color: #483d8b;
+}
+.app-global-class {
+  background-color: #800080;
+}
+```
+
+### Conditional classes
+To use conditional classnames you can use the `classes` function.  
+Note that the classnames should be **inline**
+```jsx
+import React, { useState } from 'react';
+import { classes } from 'react-scoped-styles';
+import './sidebar.styl';
+
+export const SideBar = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div className={classes(open, 'open', 'sidebar')}>
+            ...
+        </div>
+    )
+};
+```
+
 ## How it's different from CSS Modules?
 In CSS Modules you have to manually import and assign classes  
 ```jsx
@@ -181,4 +199,13 @@ import './button.styl';
 const Button = () => (
   <button className="foo">Press Me</button>
 );
+```
+
+## API
+```typescript
+classes: (
+    condition: boolean,
+    classToApply: string,
+    defaultClasses?: string
+) => string;
 ```

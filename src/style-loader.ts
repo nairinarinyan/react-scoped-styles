@@ -1,19 +1,21 @@
 import { createDirHash } from './lib/dirhash';
 import { LoaderContext } from './options';
 
-function styleLoader(this: LoaderContext, source: string): string {
+export default function styleLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' }  = this.query;
-    const classRegex = new RegExp(`((?:\\s|^)\\.)((?!${globalsPrefix}-)\\w+[\\w-]*\\b)`, 'g');
 
-    if (!source.match(classRegex)) {
+    const classLineRegex = /(.*(\..*?)(?<!;)$)/gm;
+    const classRegex = new RegExp(`(?<=\\.)((?!${globalsPrefix}-)\\w+[\\w-]*\\b)`, 'g');
+
+    if (!source.match(classLineRegex)) {
         return source;
     }
-    
+
     const [dirName, dirHash] = createDirHash(this.context);
-    return source.replace(classRegex, (_match, p1, className) => {
-        const uniqueClassName = `${dirName}-${dirHash}-${className}`;
-        return p1 + uniqueClassName;
+    return source.replace(classLineRegex, matchingLine => {
+        return matchingLine.replace(classRegex, className => {
+            const uniqueClassName = `${dirName}-${dirHash}-${className}`;
+            return uniqueClassName;
+        });
     });
 };
-
-export = styleLoader;
