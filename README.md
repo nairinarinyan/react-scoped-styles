@@ -194,7 +194,7 @@ export const SideBar = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className={classes(open, 'open', 'sidebar')}>
+        <div className={classes([open, 'open'], 'sidebar')}>
             ...
         </div>
     )
@@ -203,9 +203,19 @@ export const SideBar = () => {
 
 ## API
 ```typescript
-classes: (
-    condition: boolean,
-    classToApply: string,
-    defaultClasses?: string
+classes (
+    ...([boolean, string] | string)[]
 ) => string;
+```
+`classes` function accepts arrays of `[condition, className]` pairs, and `class-name` strings or default classes.
+```jsx
+<div className={classes('default', [true, 'applied'], 'another-one', [false, 'not-applied'])} />
+```
+
+All classes should be **INLINE**, this **won't work**
+```js
+const someClass = 'some';
+const someCondition = true;
+
+<div className={classes([someCondition, someClass])} />
 ```

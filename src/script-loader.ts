@@ -3,11 +3,12 @@ import { LoaderContext } from './options';
 
 export default function scriptLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' } = this.query;
+    const isExternal = !this.resourcePath.startsWith(this.rootContext);
 
-    const classExprRegex = /className.*?['|"].*?['|"].*?[:|}]/g
+    const classExprRegex = /className.*?['|"].*?['|"].*?[:}\n\r]/g
     const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
 
-    if (!source.match(classExprRegex)) {
+    if (isExternal || !source.match(classExprRegex)) {
         return source;
     }
 
