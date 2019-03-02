@@ -5,7 +5,7 @@ export default function scriptLoader(this: LoaderContext, source: string): strin
     const { globalsPrefix = 'app' } = this.query;
     const isExternal = !this.resourcePath.startsWith(this.rootContext);
 
-    const classExprRegex = /[cC]lassName.*?['|"].*?['|"]/g
+    const classExprRegex = /classname:\s(["'].*?["']|.*?\))/gi;
     const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
 
     if (isExternal || !source.match(classExprRegex)) {
