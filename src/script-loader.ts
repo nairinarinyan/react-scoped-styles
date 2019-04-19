@@ -17,6 +17,7 @@ export default function scriptLoader(this: LoaderContext, source: string): strin
     return source.replace(classExprRegex, classExpr => {
         return classExpr.replace(classStringRegex, (_match, classNames) => {
             const uniqueClassNames = classNames.split(' ')
+                .filter(Boolean)
                 .map((className: string) => {
                     const containsPrefix = className.startsWith(`${globalsPrefix}-`);
                     const uniqueClassName = `${dirName}-${dirHash}-${className}`;
