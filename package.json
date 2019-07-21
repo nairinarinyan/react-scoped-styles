@@ -23,5 +23,7 @@
         "@types/webpack": "^4.4.24",
         "typescript": "^3.3.1"
     },
-    "dependencies": {}
+    "dependencies": {
+        "css-tree": "^1.0.0-alpha.33"
+    }
 }
