@@ -4,7 +4,7 @@ import { LoaderContext } from './options';
 export default function scriptLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' } = this.query;
 
-    const classExprRegex = /classname:\s(["'].*?["']|.*?\))/gi;
+    const classExprRegex = /classname:\s*(["'].*?["']|.*?\))/gi;
     const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
 
     if (!source.match(classExprRegex)) {
