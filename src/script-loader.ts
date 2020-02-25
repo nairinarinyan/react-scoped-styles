@@ -21,14 +21,15 @@ export default function scriptLoader(this: LoaderContext, source: string): strin
                 .filter(Boolean)
                 .map((className: string) => {
                     const containsPrefix = prefixRegex.test(className);
-                    // className.startsWith(`${globalsPrefix}-`);
                     const uniqueClassName = `${dirName}-${dirHash}-${className}`;
 
                     return containsPrefix ? className : uniqueClassName;
                 })
                 .join(' ');
 
-            return "'" + uniqueClassNames + "'";
+            const prefix = /^\s/.test(classNames) ? "' " : "'";
+            const suffix = /\s$/.test(classNames) ? " '" : "'";
+            return prefix + uniqueClassNames + suffix;
         });
     });
 }
