@@ -4,7 +4,7 @@ import { LoaderContext } from './options';
 export default function scriptLoader(this: LoaderContext, source: string): string {
     const { globalsPrefix = 'app' } = this.query;
     const prefix = Array.isArray(globalsPrefix) ? globalsPrefix : [globalsPrefix];
-    const prefixRegex = new RegExp(`^(${prefix.join('|')})-`, 'g');
+    const prefixRegex = new RegExp(`^(${prefix.join('|')})-`);
 
     const classExprRegex = /classname:\s(["'].*?["']|.*?\))/gi;
     const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
