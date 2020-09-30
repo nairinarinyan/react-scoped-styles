@@ -6,7 +6,7 @@ export default function styleLoader(this: LoaderContext, source: string): string
     const prefix = Array.isArray(globalsPrefix) ? globalsPrefix : [globalsPrefix];
 
     const classLineRegex = /(.*(\..*?)(?<!;)$)/gm;
-    const classRegex = new RegExp(`(?<=\\.)((?!(${prefix.join('|')})-)\\w+[\\w-]*\\b)`, 'g');
+    const classRegex = new RegExp(`(?<=\\.)((?!(${prefix.join('|')}))\\w+[\\w-]*\\b)`, 'g');
 
     if (!source.match(classLineRegex)) {
         return source;
