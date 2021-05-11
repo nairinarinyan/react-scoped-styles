@@ -6,7 +6,7 @@ export default function scriptLoader(this: LoaderContext, source: string): strin
     const prefix = Array.isArray(globalsPrefix) ? globalsPrefix : [globalsPrefix];
     const prefixRegex = new RegExp(`^(${prefix.join('|')})-`);
 
-    const classExprRegex = /classname:\s(["'].*?["']|.*?\))/gi;
+    const classExprRegex = /classname:\s*(["'].*?["']|.*?\))/gi;
     const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
 
     if (!source.match(classExprRegex)) {
