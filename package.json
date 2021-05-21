@@ -1,6 +1,6 @@
 {
     "name": "react-scoped-styles",
-    "version": "0.3.3",
+    "version": "0.4.0",
     "description": "Scoped styles for React components",
     "main": "index.js",
     "scripts": {
@@ -19,8 +19,12 @@
         "url": "https://github.com/nairinarinyan/react-scoped-styles"
     },
     "devDependencies": {
+        "@types/loader-utils": "^2.0.2",
         "@types/node": "^10.12.21",
         "@types/webpack": "^4.4.24",
         "typescript": "^3.3.1"
+    },
+    "dependencies": {
+        "loader-utils": "^2.0.0"
     }
 }

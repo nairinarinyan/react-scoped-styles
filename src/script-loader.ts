@@ -1,29 +1,31 @@
+import { loader } from 'webpack';
 import { createDirHash } from './lib/dirhash';
-import { LoaderContext } from './options';
+import { getCheckInclude } from './lib/check-include';
 
-export default function scriptLoader(this: LoaderContext, source: string): string {
-    const { globalsPrefix = 'app' } = this.query;
-    const prefix = Array.isArray(globalsPrefix) ? globalsPrefix : [globalsPrefix];
-    const prefixRegex = new RegExp(`^(${prefix.join('|')})-`);
+// > a.replace(/(?<=classes[\s\S]*?)\[\D+?\,\s?(\D+?)\]/gmi, (m, g) => m.replace(g, 'k+' + g))
 
-    const classExprRegex = /classname:\s(["'].*?["']|.*?\))/gi;
-    const classStringRegex = new RegExp(`['|"](.*?)['|"]`, 'g')
+const classExprRegex = /classname:\s(["'].*?["'])/gi;
+const classRegex = /["'](.*?)["']/g;
+
+export default function scriptLoader(this: loader.LoaderContext, source: string): string {
+    const checkInclude = getCheckInclude(this);
 
     if (!source.match(classExprRegex)) {
         return source;
     }
 
+    debugger
     const [dirName, dirHash] = createDirHash(this.context);
 
     return source.replace(classExprRegex, classExpr => {
-        return classExpr.replace(classStringRegex, (_match, classNames) => {
+        return classExpr.replace(classRegex, (_match, classNames) => {
             const uniqueClassNames = classNames.split(' ')
                 .filter(Boolean)
                 .map((className: string) => {
-                    const containsPrefix = prefixRegex.test(className);
+                    const include = checkInclude(className);
                     const uniqueClassName = `${dirName}-${dirHash}-${className}`;
 
-                    return containsPrefix ? className : uniqueClassName;
+                    return include ? uniqueClassName : className;
                 })
                 .join(' ');
 

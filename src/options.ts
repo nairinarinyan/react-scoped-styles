@@ -1,5 +1,4 @@
-import { loader } from 'webpack';
-
-export interface LoaderContext extends loader.LoaderContext {
-    globalsPrefix: string;
-}
+export type Options = {
+    include?: string[];
+    exclude?: string[];
+};
