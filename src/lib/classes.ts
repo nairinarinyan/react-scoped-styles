@@ -1,17 +1,36 @@
-type ClassPair = [boolean, string];
+type ClassObj = {
+    [key: string]: boolean;
+};
 
-export function classes(...classPairs: (ClassPair | string)[]) {
-    const classNames = classPairs
-        .map((pair): string => {
-            if (typeof pair === 'string') {
-                return pair as string;
+type ClassExpr = string | ClassObj;
+
+export const classes = (...expressions: ClassExpr[]): string => {
+    return expressions
+        .map(expr => {
+            if (typeof expr === 'string') {
+                return expr;
             }
 
-            const [condition, className] = pair as ClassPair;
-            return condition ? className : '';
+            return Object.entries(expr)
+                .filter(([_, condition]) => condition)
+                .map(([className, _]) => className)
+                .join(' ');
         })
-        .filter(Boolean)
         .join(' ');
+};
 
-    return classNames;
-}
+// export function classes(...classPairs: (ClassPair | string)[]) {
+//     const classNames = classPairs
+//         .map((pair): string => {
+//             if (typeof pair === 'string') {
+//                 return pair as string;
+//             }
+
+//             const [condition, className] = pair as ClassPair;
+//             return condition ? className : '';
+//         })
+//         .filter(Boolean)
+//         .join(' ');
+
+//     return classNames;
+// }

@@ -1,32 +1,25 @@
 import { loader } from 'webpack';
 import { createDirHash } from './lib/dirhash';
-import { getCheckInclude } from './lib/check-include';
+import { getInclude } from './lib/include-hash';
+import { replaceConditionals } from './lib/parsers';
 
-// > a.replace(/(?<=classes[\s\S]*?)\[\D+?\,\s?(\D+?)\]/gmi, (m, g) => m.replace(g, 'k+' + g))
-
-const classExprRegex = /classname:\s(["'].*?["'])/gi;
+const classExprRegex = /classname:\s["'].*?["']/gi;
 const classRegex = /["'](.*?)["']/g;
 
 export default function scriptLoader(this: loader.LoaderContext, source: string): string {
-    const checkInclude = getCheckInclude(this);
+    const includeHash = getInclude(this);
 
     if (!source.match(classExprRegex)) {
         return source;
     }
 
-    debugger
-    const [dirName, dirHash] = createDirHash(this.context);
+    const dirHash = createDirHash(this.context);
 
-    return source.replace(classExprRegex, classExpr => {
+    const newSource = source.replace(classExprRegex, classExpr => {
         return classExpr.replace(classRegex, (_match, classNames) => {
             const uniqueClassNames = classNames.split(' ')
                 .filter(Boolean)
-                .map((className: string) => {
-                    const include = checkInclude(className);
-                    const uniqueClassName = `${dirName}-${dirHash}-${className}`;
-
-                    return include ? uniqueClassName : className;
-                })
+                .map((className: string) => includeHash(className, dirHash))
                 .join(' ');
 
             const prefix = /^\s/.test(classNames) ? "' " : "'";
@@ -34,4 +27,6 @@ export default function scriptLoader(this: loader.LoaderContext, source: string)
             return prefix + uniqueClassNames + suffix;
         });
     });
+
+    return replaceConditionals(newSource, className => includeHash(className, dirHash));
 }
