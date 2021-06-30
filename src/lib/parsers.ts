@@ -17,8 +17,8 @@ export const findClosingParenthesisIdx = (str: string) => {
 };
 
 const dynKeyRegex = /(?<=\[).+(?=\]\:)/g;
-const constKeyRegex = /['"]?([\w-]+)["']?(?=:)/g;
-const defaultClassRegex = /["'](.+)["'](?=[,)])/g;
+const constKeyRegex = /['"`]?([\w-]+)["'`]?(?=:)/g;
+const defaultClassRegex = /["'`](.+)["'`](?=[,)])/g;
 
 const replaceClassNames = (expr: string, includeHash: (className: string) => string) => {
   return expr
