@@ -10,12 +10,17 @@ export const getInclude = (context: loader.LoaderContext) => {
     const includeRegex = shouldTestInclude && new RegExp(`^(${include.join('|')})-`);
     const excludeRegex = shouldTestExclude && new RegExp(`^(${exclude.join('|')})-`);
 
-    return (className: string, dirHash: string) => {
-      const include = shouldTestInclude ?
+    return (className: string, dirHash: string): string => {
+      const shouldModify = shouldTestInclude ?
         (includeRegex as RegExp).test(className) :
         shouldTestExclude ? !(excludeRegex as RegExp).test(className) : true;
 
-      const uniqueClassName = `${className}-${dirHash}`;
-      return include ? uniqueClassName : className;
+      const uniqueClassName = !shouldModify ?
+        null :
+          shouldTestInclude ?
+            `${className.replace(includeRegex as RegExp, '_' + dirHash + '-')}` :
+              `${className}-${dirHash}`;
+
+      return shouldModify ? uniqueClassName as string : className;
     }
 };

@@ -16,15 +16,10 @@ export const findClosingParenthesisIdx = (str: string) => {
   return 0;
 };
 
-const dynKeyRegex = /(?<=\[).+(?=\]\:)/g;
-const constKeyRegex = /['"`]?([\w-]+)["'`]?(?=:)/g;
-const defaultClassRegex = /["'`](.+)["'`](?=[,)])/g;
-
-const replaceClassNames = (expr: string, includeHash: (className: string) => string) => {
-  return expr
-    .replace(constKeyRegex, (_, className) => `'${includeHash(className)}'`)
-    .replace(defaultClassRegex, (_, className) => `'${includeHash(className)}'`)
-};
+// const dynKeyRegex = /(?<=\[).+(?=\]\:)/g;
+// const constKeyRegex = /['"`]?([\w-${}]+)["'`]?(?=:)/g;
+// const defaultClassRegex = /["'`](.+)["'`](?=[,)])/g;
+const allStringsRegex = /["'`](.+?)["'`]/g;
 
 export const replaceConditionals = (content: string, includeHash: (className: string) => string) => {
   if (!/classes\(/ig.test(content)) {
@@ -41,8 +36,12 @@ export const replaceConditionals = (content: string, includeHash: (className: st
     const closingIdx = findClosingParenthesisIdx(content.slice(startIdx)) + startIdx + 1;
     const pre = content.slice(0, startIdx);
     const post = content.slice(closingIdx);
-    const expr = replaceClassNames(content.slice(startIdx, closingIdx), includeHash);
-    replacedContent = pre + expr + post;
+
+    const classesExpr = content
+      .slice(startIdx, closingIdx)
+      .replace(allStringsRegex, (_, className) => `'${includeHash(className)}'`)
+
+    replacedContent = pre + classesExpr + post;
   }
 
   return replacedContent;
