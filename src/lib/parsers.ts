@@ -31,13 +31,13 @@ export const replaceConditionals = (content: string, includeHash: (className: st
   let match;
   let replacedContent = content;
 
-  while((match = regexp.exec(content)) !== null) {
+  while((match = regexp.exec(replacedContent)) !== null) {
     const startIdx = match.index;
-    const closingIdx = findClosingParenthesisIdx(content.slice(startIdx)) + startIdx + 1;
-    const pre = content.slice(0, startIdx);
-    const post = content.slice(closingIdx);
+    const closingIdx = findClosingParenthesisIdx(replacedContent.slice(startIdx)) + startIdx + 1;
+    const pre = replacedContent.slice(0, startIdx);
+    const post = replacedContent.slice(closingIdx);
 
-    const classesExpr = content
+    const classesExpr = replacedContent
       .slice(startIdx, closingIdx)
       .replace(allStringsRegex, (_, className) => `'${includeHash(className)}'`)
 
