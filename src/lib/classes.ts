@@ -2,7 +2,7 @@ type ClassObj = {
     [key: string]: boolean;
 };
 
-type ClassExpr = string | ClassObj;
+export type ClassExpr = string | ClassObj;
 
 export const classes = (...expressions: ClassExpr[]): string => {
     return expressions
@@ -18,19 +18,3 @@ export const classes = (...expressions: ClassExpr[]): string => {
         })
         .join(' ');
 };
-
-// export function classes(...classPairs: (ClassPair | string)[]) {
-//     const classNames = classPairs
-//         .map((pair): string => {
-//             if (typeof pair === 'string') {
-//                 return pair as string;
-//             }
-
-//             const [condition, className] = pair as ClassPair;
-//             return condition ? className : '';
-//         })
-//         .filter(Boolean)
-//         .join(' ');
-
-//     return classNames;
-// }

@@ -1,1 +1,1 @@
-export { classes } from './lib/classes';
+export { classes, ClassExpr } from './lib/classes';
