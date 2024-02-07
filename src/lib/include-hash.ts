@@ -1,9 +1,8 @@
-import { loader } from 'webpack';
-import { getOptions } from 'loader-utils';
+import * as webpack from 'webpack';
 import { Options } from '../options';
 
-export const getInclude = (context: loader.LoaderContext) => {
-    const { include = [], exclude = [] } = getOptions(context) as Options;
+export const getInclude = (context: webpack.LoaderContext<Options>) => {
+    const { include = [], exclude = [] } = context.getOptions();
     const shouldTestInclude = !!include.length;
     const shouldTestExclude = !!exclude.length;
 
