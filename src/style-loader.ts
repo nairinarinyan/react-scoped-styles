@@ -1,11 +1,11 @@
-import { loader } from 'webpack';
+import * as webpack from 'webpack';
 import { getInclude } from './lib/include-hash';
 import { createDirHash } from './lib/dirhash';
 
 const classRegex = /(?<=\.)[_a-zA-Z]+[_a-zA-Z0-9-]*/g;
 const ruleBodyRegex = /\{.*?\}/g;
 
-export default function styleLoader(this: loader.LoaderContext, source: string): string {
+export default function styleLoader(this: webpack.LoaderContext<any>, source: string): string {
     const includeHash = getInclude(this);
 
     const strippedSrc = source.replace(ruleBodyRegex, '');

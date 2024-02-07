@@ -1,13 +1,14 @@
-import { loader } from 'webpack';
+import * as webpack from 'webpack';
 import { createDirHash } from './lib/dirhash';
 import { getInclude } from './lib/include-hash';
 import { replaceConditionals } from './lib/parsers';
+import { Options } from './options';
 
 const classDeclarationRegex = /className:/g;
 const classExprRegex = /classname:\s["'].*?["']/gi;
 const classRegex = /["'](.*?)["']/g;
 
-export default function scriptLoader(this: loader.LoaderContext, source: string): string {
+export default function scriptLoader(this: webpack.LoaderContext<Options>, source: string): string {
     const includeHash = getInclude(this);
 
     if (!source.match(classDeclarationRegex)) {
